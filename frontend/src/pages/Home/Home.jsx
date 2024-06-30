@@ -47,7 +47,7 @@ const Home = () => {
                   
                 </p>
             </div> */}
-        <h1 className='bg-[#eff7f6] text-[30px] py-8  text-center py-1'>Hi {username}. Hope you are doing good!</h1>
+        <h1 className='bg-[#eff7f6] text-[30px] py-8 text-center'>Hi {username}. Hope you are doing good!</h1>
         <div className='px-[350px] '>
           <a href="/all-collections">
             <Cookies/>

@@ -26,7 +26,6 @@ const Navbar = () => {
 
     const [wishlist, setWishlist] = useState(0);
     const [cart, setCart] = useState(0);
-
     return (
         <div className='flex items-center justify-between bg-white px-[350px] py-1 shadow-sm'>
             <div className='flex items-center space-x-[100px] '>

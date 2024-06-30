@@ -55,36 +55,32 @@ const Login = () => {
         <>
             <Banner/>
             <Navbar/>
-            <div className='flex items-center justify-center min-h-screen'>
-                <div className='w-96 border-[5px] rounded-[20px] bg-white px-7 py-10 mt-[-400px]'>
-                    <form onSubmit={handleLogin}>
-                    <h4 className='text-3xl font-semibold text-center mb-7'>Login</h4>
-            
-                    <input
-                        type="text"
-                        placeholder='Enter Mobile Number'
-                        className='input-box'
-                        value={phoneNo}
-                        onChange={(e) => setPhoneNo(e.target.value)}
-                    />
-            
-                    <PasswordInput
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-            
-                    {error && <p className='text-red-500 text-xs pb-1'>{error}</p>}
-            
-                    <button type='submit' className='btn-primary'>Login</button>
+            <div className="w-96 border-4 rounded-20 bg-white px-7 py-10 mx-auto my-32">
+              <form onSubmit={handleLogin}>
 
-                    <p className='text-sm text-center mt-4 font-semibold'>Not registered yet?
-                        <a href="/signup" className="font-semibold text-primary ps-1 text-blue-600">Create an Account</a>
-                    </p>
+                <h4 className='text-3xl font-semibold text-center mb-7'>Login</h4>
+                <input
+                    type="text"
+                    placeholder='Enter Mobile Number'
+                    className='input-box'
+                    value={phoneNo}
+                    onChange={(e) => setPhoneNo(e.target.value)}
+                />
 
-                    </form>
-                </div>
+                <PasswordInput
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+            
+                {error && <p className='text-red-500 text-xs pb-1'>{error}</p>}
+        
+                <button type='submit' className='btn-primary'>Login</button>
 
-                
+                <p className='text-sm text-center mt-4 font-semibold'>Not registered yet?
+                    <a href="/signup" className="font-semibold text-primary ps-1 text-blue-600">Create an Account</a>
+                </p>
+
+              </form>
             </div>
             <Footer/>
         </>

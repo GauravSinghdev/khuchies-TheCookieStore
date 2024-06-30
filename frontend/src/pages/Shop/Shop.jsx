@@ -1,172 +1,117 @@
-import React from 'react'
-import Banner from '../../components/Cards/Banner'
-import Navbar from '../../components/Navbar/Navbar'
-import Footer from '../../components/Footer/Footer'
+import React, { useState } from 'react';
+import Banner from '../../components/Cards/Banner';
+import Navbar from '../../components/Navbar/Navbar';
+import Footer from '../../components/Footer/Footer';
 
-const Shop = () =>{
-
-  const onAction = () => {
-
+const initialItems = [
+  {
+    image: "https://cdn.pixabay.com/photo/2020/11/03/23/55/cookies-5711139_640.jpg",
+    item_name: "Heart Cookies (250 gms)",
+    SP: "₹60.00",
+    MRP: "₹75.00",
+    disc: "20% OFF",
+    tItem: 0
+  },
+  {
+    image: "https://cdn.pixabay.com/photo/2024/02/24/15/46/ai-generated-8594272_640.jpg",
+    item_name: "Thick Milk Shake (1L)",
+    SP: "₹140.00",
+    MRP: "₹200.00",
+    disc: "20% OFF",
+    tItem: 0
+  },
+  {
+    image: "https://cdn.pixabay.com/photo/2023/02/12/11/41/biscuit-7784888_640.jpg",
+    item_name: "Baked Cookies (250 gms)",
+    SP: "₹399.00",
+    MRP: "₹499.00",
+    disc: "20% OFF",
+    tItem: 0
   }
+];
+
+const Shop = () => {
+  const [items, setItems] = useState(initialItems);
+
+  const handleAddClick = (index) => {
+    const newItems = [...items];
+    newItems[index].tItem = 1; // Initialize the count to 1
+    setItems(newItems);
+  };
+
+  const handleIncrement = (index) => {
+    const newItems = [...items];
+    newItems[index].tItem += 1;
+    setItems(newItems);
+  };
+
+  const handleDecrement = (index) => {
+    const newItems = [...items];
+    if (newItems[index].tItem > 0) {
+      newItems[index].tItem -= 1;
+    }
+    setItems(newItems);
+  };
+
+  let totalCart = 0;
+  initialItems.map((ele) => {
+    totalCart += ele.tItem;
+  })
+
+  console.log(totalCart);
   return (
+
     <div>
-        <Banner/>
-        <Navbar/>        
+      <Banner />
+      <Navbar totalCart={totalCart} />
 
-        <div className="flex gap-10 my-10 mx-auto justify-center px-[350px]">
-                
-                <div className="shadow-lg border-2 border-gray-300 bg-white w-[350px] grid  text-[#cfa25a]" onClick={onAction}>
+      <div className='grid grid-cols-12 px-[350px] gap-5 py-10'>
+        {items.map((item, index) => (
+          <div key={index} className="shadow-lg border-4 border-gray-500 bg-white col-span-4 text-[#cfa25a]">
+            <img src={item.image} alt="item-pic" className='h-[300px] w-full object-cover cursor-pointer' />
 
-                    <a href="/">
-                        <img src="https://cdn.pixabay.com/photo/2020/11/03/23/55/cookies-5711139_640.jpg" alt="" className='h-[400px] w-full' />
-                    </a>
+            <div className='px-4 pt-4'>
+              <p>{item.item_name}</p>
 
-                    <div className='px-4 pt-4'>
-                        <p>Heart Cookies</p>
+              <div className='flex gap-2 pt-5'>
+                <div>{item.SP}</div>
+                <div className='line-through text-[14px]'>{item.MRP}</div>
+                <div className='text-[#02743c] bg-[#e5f6ef] rounded-[10px] px-1 mt-[-5px] mb-5 text-[14px]'>{item.disc}</div>
+              </div>
+              {
+                item.tItem === 0 ? (
+                  <button
+                    className='border-2 w-full rounded-[20px] p-1 mb-2 text-[15px] hover:border-gray-400 shadow'
+                    onClick={() => handleAddClick(index)}
+                  >
+                    Add me
+                  </button>
+                ) : (
+                  <div className='text-center flex justify-center items-center gap-2'>
+                    <button
+                      className='text-[20px] px-3 my-1 mx-1 rounded-full border-2 active:bg-red-300'
+                      onClick={() => handleDecrement(index)}
+                    >
+                      -
+                    </button>
+                    <h1 className='items-center'>{item.tItem}</h1>
+                    <button
+                      className='text-[20px] px-3 my-1 mx-1 rounded-full border-2 active:bg-green-300'
+                      onClick={() => handleIncrement(index)}
+                    >
+                      +
+                    </button>
+                  </div>
+                )
+              }
+            </div>
+          </div>
+        ))}
+      </div>
 
-                        <div className='flex gap-2 pt-5'>
-                            <div>₹60.00</div> 
-                            <div className='line-through text-[14px]'>₹75.00</div> 
-                            <div className='text-[#02743c] bg-[#e5f6ef] rounded-[10px] px-1 mt-[-5px] mb-5 text-[14px]'>20% OFF</div>
-                        </div>
-
-                        <div>
-                            <button className='border-2 w-full rounded-[20px] p-1 mb-2 hover:border-black'>Add me</button>
-                        </div>
-
-                    </div>
-                    
-                </div>   
-
-                
-
-                <div className="shadow-lg border-2 border-gray-300 bg-white w-[350px] grid  text-[#cfa25a]" onClick={onAction}>
-
-                    <a href="/">
-                        <img src="https://cdn.pixabay.com/photo/2024/02/24/15/46/ai-generated-8594272_640.jpg" alt="" className='h-[400px] w-full' />
-                    </a>
-
-                    <div className='px-4 pt-4'>
-                        <p>Thick Milk Shake 1 L</p>
-
-                        <div className='flex gap-2 pt-5'>
-                            <div>₹140.00</div> 
-                            <div className='line-through text-[14px]'>₹200.00</div> 
-                            <div className='text-[#02743c] bg-[#e5f6ef] rounded-[10px] px-1 mt-[-5px] mb-5 text-[14px]'>20% OFF</div>
-                        </div>
-
-                        <div>
-                            <button className='border-2 w-full rounded-[20px] p-1 mb-2 hover:border-black'>Add me</button>
-                        </div>
-
-                    </div>
-                    
-                </div>   
-
-                <div className="shadow-lg border-2 border-gray-300 bg-white w-[350px] grid  text-[#cfa25a] " onClick={onAction}>
-
-                    <a href="/">
-                        <img src="https://cdn.pixabay.com/photo/2023/02/12/11/41/biscuit-7784888_640.jpg" alt="" className='h-[400px] w-full ' />
-                    </a>
-
-                    <div className='px-4 pt-4'>
-                        <p>Baked Cookies(240 gms)</p>
-
-                        <div className='flex gap-2 pt-5'>
-                            <div>₹399.00</div> 
-                            <div className='line-through text-[14px]'>₹499.00</div> 
-                            <div className='text-[#02743c] bg-[#e5f6ef] rounded-[10px] px-1 mt-[-5px] mb-5 text-[14px]'>20% OFF</div>
-                        </div>
-
-                        <div>
-                            <button className='border-2 w-full rounded-[20px] p-1 mb-2 hover:border-black'>Add me</button>
-                        </div>
-
-                    </div>
-                    
-                </div>    
-
-        </div>
-
-        <div className="flex gap-10 my-10 mx-auto justify-center px-[350px]">
-                
-                <div className="shadow-lg border-2 border-gray-300 bg-white w-[350px] grid  text-[#cfa25a]" onClick={onAction}>
-
-                    <a href="/">
-                        <img src="https://cdn.pixabay.com/photo/2020/11/03/23/55/cookies-5711139_640.jpg" alt="" className='h-[400px] w-full' />
-                    </a>
-
-                    <div className='px-4 pt-4'>
-                        <p>Heart Cookies</p>
-
-                        <div className='flex gap-2 pt-5'>
-                            <div>₹60.00</div> 
-                            <div className='line-through text-[14px]'>₹75.00</div> 
-                            <div className='text-[#02743c] bg-[#e5f6ef] rounded-[10px] px-1 mt-[-5px] mb-5 text-[14px]'>20% OFF</div>
-                        </div>
-
-                        <div>
-                            <button className='border-2 w-full rounded-[20px] p-1 mb-2 hover:border-black'>Add me</button>
-                        </div>
-
-                    </div>
-                    
-                </div>   
-
-                
-
-                <div className="shadow-lg border-2 border-gray-300 bg-white w-[350px] grid  text-[#cfa25a]" onClick={onAction}>
-
-                    <a href="/">
-                        <img src="https://cdn.pixabay.com/photo/2024/02/24/15/46/ai-generated-8594272_640.jpg" alt="" className='h-[400px] w-full' />
-                    </a>
-
-                    <div className='px-4 pt-4'>
-                        <p>Thick Milk Shake 1 L</p>
-
-                        <div className='flex gap-2 pt-5'>
-                            <div>₹140.00</div> 
-                            <div className='line-through text-[14px]'>₹200.00</div> 
-                            <div className='text-[#02743c] bg-[#e5f6ef] rounded-[10px] px-1 mt-[-5px] mb-5 text-[14px]'>20% OFF</div>
-                        </div>
-
-                        <div>
-                            <button className='border-2 w-full rounded-[20px] p-1 mb-2 hover:border-black'>Add me</button>
-                        </div>
-
-                    </div>
-                    
-                </div>   
-
-                <div className="shadow-lg border-2 border-gray-300 bg-white w-[350px] grid  text-[#cfa25a] " onClick={onAction}>
-
-                    <a href="/">
-                        <img src="https://cdn.pixabay.com/photo/2023/02/12/11/41/biscuit-7784888_640.jpg" alt="" className='h-[400px] w-full ' />
-                    </a>
-
-                    <div className='px-4 pt-4'>
-                        <p>Baked Cookies(240 gms)</p>
-
-                        <div className='flex gap-2 pt-5'>
-                            <div>₹399.00</div> 
-                            <div className='line-through text-[14px]'>₹499.00</div> 
-                            <div className='text-[#02743c] bg-[#e5f6ef] rounded-[10px] px-1 mt-[-5px] mb-5 text-[14px]'>20% OFF</div>
-                        </div>
-
-                        <div>
-                            <button className='border-2 w-full rounded-[20px] p-1 mb-2 hover:border-black'>Add me</button>
-                        </div>
-
-                    </div>
-                    
-                </div>    
-
-        </div>
-
-
-        
-        <Footer/>
+      <Footer />
     </div>
-  )
-}
-export default Shop
+  );
+};
+
+export default Shop;

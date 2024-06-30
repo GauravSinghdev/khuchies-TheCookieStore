@@ -27,6 +27,25 @@ const userSchema = new mongoose.Schema({
         required: true,
         minLength: 6
     },
+    role:{
+        type: String,
+        required: true,
+    },
+    addLine1: {
+        type: String,
+        required: true,
+        trim: true,
+        maxLength: 30
+    },
+    addLine2: {
+        type: String,
+        trim: true,
+        maxLength:30
+    },
+    city: {
+        type: String,
+        required: true,
+    },
     createdOn: { 
         type: Date, 
         default: new Date().getTime()
