@@ -14,7 +14,8 @@ const Home = () => {
     try {
         const response = await axiosInstance.get("/user-details");
         if (response.data && response.data.user) {
-            setFullName(response.data.user.username);
+            const n = response.data.user.username;
+            setFullName(n.split(" ")[0]);
             return;
         }
     } catch (error) {
@@ -46,7 +47,7 @@ const Home = () => {
                   
                 </p>
             </div> */}
-        <h1 className='bg-red-200 text-[30px] py-8  text-center py-1'>Hi {username}. Hope you are doing good!</h1>
+        <h1 className='bg-[#eff7f6] text-[30px] py-8  text-center py-1'>Hi {username}. Hope you are doing good!</h1>
         <div className='px-[350px] '>
           <a href="/all-collections">
             <Cookies/>

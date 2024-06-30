@@ -18,7 +18,7 @@ const DropdownProf = () => {
         <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
           <a href="/user-details" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 hover:text-gray-900" role="menuitem">Profile</a>
           <a href="/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 hover:text-gray-900" role="menuitem">Settings</a>
-          <a onClick={f_logout} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 hover:text-gray-900" role="menuitem">Logout</a>
+          <a onClick={f_logout} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 hover:text-gray-900 cursor-pointer" role="menuitem">Logout</a>
 
           
         </div>
