@@ -138,7 +138,7 @@ const Signup = () => {
                                 <option value="Chittorgarh">Chittorgarh</option>
                                 <option value="Jaisalmer">Jaisalmer</option>
                                 <option value="Kota">Kota</option>
-                                <option value="Kota">Haldwani</option>
+                                <option value="Haldwani">Haldwani</option>
                             </select>
                         </div>
 
