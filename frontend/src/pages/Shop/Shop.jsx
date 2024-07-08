@@ -107,7 +107,7 @@ const Shop = () => {
 
       <div className='px-[350px]'>
 
-        <h1 className='my-10 text-[20px]'>Cookies</h1>
+        <h1 className='my-10 text-2xl'>Cookies</h1>
 
         <div className='grid grid-cols-12 gap-3 my-10'>
           {items.map((item, index) => (

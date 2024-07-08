@@ -15,6 +15,8 @@ const AllUsers = () => {
 
         try {
             const response = await axiosInstance.get("/all-user-details");
+            if(response.data.error == true)
+            console.log("error is coming!")
             if (response.data && response.data.users) {
                 setUsers(response.data.users);
                 console.log("hey");
@@ -22,7 +24,7 @@ const AllUsers = () => {
                 setLoading(false);
             }
         } catch (error) {
-            setError('Failed to fetch users');
+            setError('Failed to fetch users or User is not logged In.');
             setLoading(false);
           }
         }
@@ -37,7 +39,7 @@ const AllUsers = () => {
       <Navbar />
 
       <div className="px-[350px] mt-10">
-        <h1 className="text-2x mb-4">All Users</h1>
+        <h1 className="text-2xl mb-4">All Users</h1>
 
         {loading && <p>Loading...</p>}
         {error && <p className="text-red-500">{error}</p>}

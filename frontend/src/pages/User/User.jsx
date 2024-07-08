@@ -4,6 +4,11 @@ import Banner from '../../components/Cards/Banner';
 import Footer from '../../components/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../utils/axiosInstance';
+import { MdDeleteOutline } from "react-icons/md";
+import { CiSettings } from "react-icons/ci";
+import { LiaSignOutAltSolid } from "react-icons/lia";
+
+
 
 const User = () => {
     const [fullName, setFullName] = useState("Empty");
@@ -72,69 +77,76 @@ const User = () => {
     }, []);
 
     return (
-        <>
+        <div className='flex flex-col min-h-screen'>
             <Banner />
             <Navbar />
-            <h1 className='text-[50px] text-center mt-[50px] font-[900px] '>Profile</h1>
-            <div className='text-left text-[20px] border-4 mx-[350px] mb-[205px] px-[50px] pt-[50px] py-[20px] text-slate-800  rounded-2xl shadow-2xl border-[#dcb77b]'>
+            
+            <h1 className='text-[50px] text-center mt-[50px] font-[900px]'>Profile</h1>
+            <div className='text-left text-[20px] border mx-[350px] px-[50px] pt-[50px] py-[20px] text-slate-800  rounded shadow-2xl border-[#dcb77b] relative'>
                 
-                <div className='pb-2 flex gap-5'>
-                    <div className='font-semibold text-slate-600'>Full Name:</div> 
-                    <div>{fullName}</div>
-                </div>
 
-                <div className='pb-2 flex gap-5'>
-                    <div className='font-semibold text-slate-600'>Mobile No:</div> 
-                    <div>{mobileNo}</div>
-                </div>
-
-                <div className='pb-2 flex gap-9'>
-                    <div className='font-semibold text-slate-600'>Address:</div> 
-                    <div>{add}</div>
-                </div>
-
-                <div className='pb-2 flex gap-[78px]'>
-                    <div className='font-semibold text-slate-600'>City:</div> 
-                    <div>{city}</div>
-                </div>
-
-                <div className='pb-2 flex gap-9'>
-                    <div className='font-semibold text-slate-600'>Pincode:</div> 
-                    <div>{pincode}</div>
-                </div>
-
-                {
-                    admin && 
-                    <div className='pb-2 flex gap-[74px]'>
-                        <div className='font-semibold text-slate-600'>Role:</div> 
-                        <div>{admin}</div>
+                <div className='mt-5'>
+                    <div className='pb-2 flex gap-5'>
+                        <div className='font-semibold text-slate-600'>Full Name:</div> 
+                        <div>{fullName}</div>
                     </div>
-                }
 
-                <div className='pb-2 flex gap-8'>
-                    <div className='font-semibold text-slate-600'>Created:</div> 
-                    <div>{createdOnDate}</div>
+                    <div className='pb-2 flex gap-5'>
+                        <div className='font-semibold text-slate-600'>Mobile No:</div> 
+                        <div>{mobileNo}</div>
+                    </div>
+
+                    <div className='pb-2 flex gap-9'>
+                        <div className='font-semibold text-slate-600'>Address:</div> 
+                        <div>{add}</div>
+                    </div>
+
+                    <div className='pb-2 flex gap-[78px]'>
+                        <div className='font-semibold text-slate-600'>City:</div> 
+                        <div>{city}</div>
+                    </div>
+
+                    <div className='pb-2 flex gap-9'>
+                        <div className='font-semibold text-slate-600'>Pincode:</div> 
+                        <div>{pincode}</div>
+                    </div>
+
+                    {
+                        admin && 
+                        <div className='pb-2 flex gap-[74px]'>
+                            <div className='font-semibold text-slate-600'>Role:</div> 
+                            <div>{admin}</div>
+                        </div>
+                    }
+
+                    <div className='pb-2 flex gap-8'>
+                        <div className='font-semibold text-slate-600'>Created:</div> 
+                        <div>{createdOnDate}</div>
+                    </div>      
                 </div>
 
-                <div className='text-center'>
-                    <button 
-                        className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded text-sm px-5 py-2.5 dark:bg-red-700 dark:hover:bg-red-600 mt-5 dark:focus:ring-red-900"
-                        onClick={f_logout}
-                    >
-                        Logout
-                    </button>
 
-                    <button 
-                        className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded text-sm px-5 py-2.5 ms-2 dark:bg-red-700 dark:hover:bg-red-600 dark:focus:ring-red-900"
-                        onClick={f_del}
-                    >
-                        Del Acc
-                    </button>
+                <div className='text-center flex gap-2 justify-center absolute right-5 top-5'>
+                    <a onClick={f_logout} className='hover:cursor-pointer'>
+                        <LiaSignOutAltSolid className='h-10 w-10 hover:text-green-500 hover:scale-110'/>
+                    </a>
+
+                    <a href='/settings' className='hover:cursor-pointer'>
+                        <CiSettings className='h-10 w-10 hover:text-[#cfa25a] hover:scale-110'/>
+                    </a>
+
+                    <a onClick={f_del} className='hover:cursor-pointer'>
+                        <MdDeleteOutline className='h-10 w-10 hover:text-red-500 hover:scale-110'/>
+                    </a>
                 </div>
                 
             </div>
+
+
+            
+
             <Footer />
-        </>
+        </div>
     );
 }
 

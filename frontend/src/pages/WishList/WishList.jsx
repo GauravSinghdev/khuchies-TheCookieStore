@@ -37,7 +37,7 @@ const WishList = () => {
         
         <div className='px-[350px] '>
 
-          <h1 className='my-10 text-[20px]'>My Wishlist <span className='text-slate-600'>({items} items)</span></h1>
+          <h1 className='my-10 text-2xl'>My Wishlist <span className='text-slate-600'>({items} items)</span></h1>
 
           <div className='grid grid-cols-12 gap-3 my-10'>
             {ele.map((ele, index) => (

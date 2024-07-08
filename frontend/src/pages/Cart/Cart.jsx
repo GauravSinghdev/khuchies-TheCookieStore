@@ -50,11 +50,11 @@ const Cart = () => {
       <Navbar />
 
       <div className='px-[350px]'>
-        <h1 className='my-10 text-[20px]'>
+        <h1 className='my-10 text-2xl'>
           My Cart<span className='text-slate-600'> ({cart.length} items)</span>
         </h1>
 
-        <div className='border mx-20 p-6 flex justify-between rounded-md items-center mb-16'>
+        <div className='border mx-10 p-6 flex justify-between rounded-md items-center mb-16'>
           <div>
             <p>
               Deliver to: <span className='font-bold'>{fullname}, {pincode}</span>
@@ -68,7 +68,7 @@ const Cart = () => {
           </div>
         </div>
 
-        <div className='mx-40 flex flex-col gap-5 my-20'>
+        <div className='mx-36 flex flex-col gap-5 my-20'>
           {cart.map((item) => (
             <div key={item.id} className='border p-5 flex gap-10'>
               <div className='w-1/4'>

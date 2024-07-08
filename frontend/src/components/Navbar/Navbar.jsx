@@ -11,10 +11,10 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     const [openProfile, setOpenProfile] = useState(false);
+
+    const userToken = localStorage.getItem('userToken'); // Assuming 'userToken' is used to determine login state
  
-    const checkLog = () => {
-       
-        const userToken = localStorage.getItem('userToken'); // Assuming 'userToken' is used to determine login state
+    const checkLog1 = () => {
         if (!userToken) {
             navigate("/login");
             return
@@ -23,6 +23,15 @@ const Navbar = () => {
         setOpenProfile((prev) => !prev);
         return;
     };
+
+    const checkLog2 = () => {
+        if (!userToken) {
+           navigate("/login");
+        }
+        else{
+            navigate("/wish-list")
+        }
+    }
 
     const [wishlist, setWishlist] = useState(0);
     const [cart, setCart] = useState(0);
@@ -57,11 +66,11 @@ const Navbar = () => {
                     
                     <div className='flex space-x-[12px]'>
 
-                        <p onClick={checkLog} o className='hover:text-[#c5a101] cursor-pointer'>
+                        <p onClick={checkLog1} className='hover:text-[#c5a101] cursor-pointer'>
                             <PiUserLight className='h-7 w-7 hover:scale-110'/> 
                         </p>
 
-                        <a href="/wish-list" className='hover:text-[#c5a101] relative'>
+                        <a onClick={checkLog2} className='hover:text-[#c5a101] cursor-pointer relative'>
                             <CiHeart className='h-7 w-7 hover:scale-125'/> 
                             <span className='absolute bottom-3 left-4 text-xs bg-[#ef6263] text-white rounded-full px-1'>{wishlist}</span>
                         </a>
