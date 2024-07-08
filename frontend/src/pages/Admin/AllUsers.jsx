@@ -58,13 +58,14 @@ const AllUsers = () => {
       <Navbar />
 
       <div className="px-[350px] mt-10">
-        <h1 className="text-2xl mb-4">All Users</h1>
 
         {loading && <p>Loading...</p>}
         {error && <p className="text-red-500 text-2xl text-center mt-10">{error}</p>}
+
+        <h1 className="text-2xl mb-4">All Users</h1>
         
         {!loading && !error && users.length === 0 && (
-          <p>No users found.</p>
+          <p>No users found!</p>
         )}
 
         {!error && !loading && users.length > 0 && (

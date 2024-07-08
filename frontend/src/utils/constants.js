@@ -1,1 +1,1 @@
-export const BASE_URL = 'https://khuchies-cookiestore.onrender.com/api/v1'
+export const BASE_URL = 'https://khuchies-thecookiestore.onrender.com/api/v1'
