@@ -52,7 +52,7 @@ const Login = () => {
   };
 
     return (
-        <>
+        <div className='flex flex-col min-h-screen'>
             <Banner/>
             <Navbar/>
             <div className="w-96 border-4 rounded-20 bg-white px-7 py-10 mx-auto my-32">
@@ -83,7 +83,7 @@ const Login = () => {
               </form>
             </div>
             <Footer/>
-        </>
+        </div>
         
       );
     }

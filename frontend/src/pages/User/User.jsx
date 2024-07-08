@@ -12,6 +12,7 @@ const User = () => {
     const [add, setAdd] = useState("Empty");
     const [createdOnDate, setCreatedOnDate] = useState("Empty");
     const [admin, setAdmin] = useState(false);
+    const [pincode, setPincode] = useState("Empty");
 
     const navigate = useNavigate();
 
@@ -37,6 +38,7 @@ const User = () => {
                 if(response.data.user.role === "Admin") setAdmin(response.data.user.role)
                 const addrs = response.data.user.addLine1 + " " + response.data.user.addLine2;
                 setAdd(addrs);
+                setPincode(response.data.user.pincode)
             }
         } catch (error) {
             if (error.response && error.response.status === 401) {
@@ -94,6 +96,11 @@ const User = () => {
                 <div className='pb-2 flex gap-[78px]'>
                     <div className='font-semibold text-slate-600'>City:</div> 
                     <div>{city}</div>
+                </div>
+
+                <div className='pb-2 flex gap-9'>
+                    <div className='font-semibold text-slate-600'>Pincode:</div> 
+                    <div>{pincode}</div>
                 </div>
 
                 {

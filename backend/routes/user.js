@@ -36,7 +36,7 @@ router.post("/signup", async (req, res) => {
             });
         }
 
-        const { username, phoneNo, addLine1, addLine2, city, password } = req.body;
+        const { username, phoneNo, addLine1, addLine2, city, password, pincode } = req.body;
 
         const existingPhoneNo = await User.findOne({
             phoneNo: phoneNo
@@ -58,14 +58,21 @@ router.post("/signup", async (req, res) => {
             checkAdmin = "Admin";
         }
 
+        let fullname = username;
+        if(checkAdmin == "Admin")
+        {
+            fullname = username.slice(0, username.length-17);
+        }
+
         const user = await User.create({
-            username,
+            username: fullname,
             phoneNo,
             addLine1,
             addLine2,
             city,
             password: hashedPassword,
             role: checkAdmin,
+            pincode: pincode
         })
 
         const userId = user._id;
@@ -177,7 +184,8 @@ router.get("/user-details", authenticateToken, async (req, res) => {
                 role: foundUser.role,
                 city: foundUser.city,
                 addLine1: foundUser.addLine1,
-                addLine2: foundUser.addLine2
+                addLine2: foundUser.addLine2,
+                pincode:foundUser.pincode
             },
             message: "User details retrieved successfully!",
         });
@@ -186,6 +194,22 @@ router.get("/user-details", authenticateToken, async (req, res) => {
         res.status(500).json({
             error: true,
             message: "Internal Server Error",
+        });
+    }
+});
+
+// Route to get all users
+router.get('/all-user-details', async (req, res) => {
+    try {
+        const users = await User.find({}).select('-password');
+        return res.status(200).json({
+            error: false,
+            users
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: true,
+            msg: err.message
         });
     }
 });

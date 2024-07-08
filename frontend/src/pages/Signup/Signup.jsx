@@ -14,6 +14,7 @@ const Signup = () => {
     const [addLine2, setAddLine2] = useState('');
     const [city, setCity] = useState('');
     const [error, setError] = useState(null);
+    const [pincode, setPincode] = useState("");
 
     const navigate = useNavigate();
 
@@ -61,6 +62,7 @@ const Signup = () => {
                 addLine1: addLine1,
                 addLine2: addLine2,
                 city: city,
+                pincode : pincode
             });
 
             if (response.data && response.data.error) {
@@ -82,7 +84,7 @@ const Signup = () => {
     };
 
     return (
-        <>
+        <div className='flex flex-col min-h-screen'>
             <Banner />
             <Navbar />
                 <div className="w-96 border-4 rounded-20 bg-white px-7 py-10 mx-auto my-10">
@@ -125,7 +127,7 @@ const Signup = () => {
                         <div className="mt-1 mb-5 flex items-center gap-3">
                             <label>City</label>
                             <select
-                                className="border-2 px-1 border-gray-300"
+                                className="border-[1.5px] bg-transparent px-1 rounded-lg outline-none"
                                 value={city}
                                 onChange={(e) => setCity(e.target.value)}
                             >
@@ -136,8 +138,19 @@ const Signup = () => {
                                 <option value="Chittorgarh">Chittorgarh</option>
                                 <option value="Jaisalmer">Jaisalmer</option>
                                 <option value="Kota">Kota</option>
+                                <option value="Kota">Haldwani</option>
                             </select>
                         </div>
+
+                            
+                        <input
+                        type="text"
+                        placeholder="Pincode No."
+                        className="input-box"
+                        maxLength={6}
+                        value={pincode}
+                        onChange={(e) => setPincode(e.target.value)}
+                        />
 
                         <PasswordInput
                             value={password}
@@ -158,7 +171,7 @@ const Signup = () => {
                 </div>
 
             <Footer />
-        </>
+        </div>
     );
 };
 

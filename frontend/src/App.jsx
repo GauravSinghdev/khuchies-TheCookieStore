@@ -17,7 +17,9 @@ import WishList from './pages/WishList/WishList'
 import ContactUs from './pages/ContactUs/ContactUs' 
 import JoinUs from './pages/JoinUs/JoinUs'
 import Jobs from './pages/Jobs/Jobs'
-import Setting from './pages/Settings/Setting'
+import Setting from './pages/Settings/Settings'
+import Orders from './pages/Orders/Orders'
+import AllUsers from './pages/Admin/AllUsers'
 
 const routes = (
   <Router>
@@ -34,6 +36,8 @@ const routes = (
       <Route path='/join-us' exact element={<JoinUs/>}></Route>
       <Route path='/job-openings' exact element={<Jobs/>}></Route>
       <Route path='/settings' exact element={<Setting/>}></Route>
+      <Route path='/my-orders' exact element={<Orders/>}></Route>
+      <Route path='/all-users' exact element={<AllUsers/>}></Route>
 
     </Routes>
   </Router>

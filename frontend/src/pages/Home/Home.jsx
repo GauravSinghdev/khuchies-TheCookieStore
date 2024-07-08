@@ -33,20 +33,10 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
+    <div className='flex flex-col min-h-screen'>
         <Banner/>
         <Navbar/>
-        {/* <div className='text-center h-[180px] py-[55px] bg-[#eff7f6] px-[350px]'>
-                <p className='text-[50px] text-center w-auto'>
-                  <a href="/all-collections" className='flex justify-center'>
-                    Explore Shop Here 
-                    <span>
-                      <GoArrowRight className='mt-3'/>
-                    </span>
-                  </a>
-                  
-                </p>
-            </div> */}
+
         <h1 className='bg-[#eff7f6] text-[30px] py-8 text-center'>Hi {username}. Hope you are doing good!</h1>
         <div className='px-[350px] '>
           <a href="/all-collections">

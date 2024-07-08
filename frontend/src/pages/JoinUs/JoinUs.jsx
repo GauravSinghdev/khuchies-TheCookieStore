@@ -16,7 +16,7 @@ const JoinUs = () => {
 
 
   return (
-    <div>
+    <div className='flex flex-col min-h-screen'>
         <Banner/>
         <Navbar/>
 

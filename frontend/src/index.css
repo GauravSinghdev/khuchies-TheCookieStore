@@ -17,6 +17,7 @@
 @layer base {
   html {
     font-family: 'Poppins', sans-serif; /* Ensure you use the font you imported */
+    scroll-behavior: smooth;
   }
 
   body {
