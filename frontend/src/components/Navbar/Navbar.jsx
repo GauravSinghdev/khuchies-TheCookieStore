@@ -26,7 +26,7 @@ const Navbar = () => {
 
     const checkLog2 = () => {
         if (!userToken) {
-           navigate("/login");
+           navigate("/signup");
         }
         else{
             navigate("/wish-list")
