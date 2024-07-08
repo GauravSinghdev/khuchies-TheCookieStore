@@ -29,8 +29,27 @@ const AllUsers = () => {
           }
         }
 
+    const fetchIfAdmin = async () => {
+
+      try{
+        const response = await axiosInstance.get("/user-details");
+        console.log("yo yo")
+        if (response.data && response.data.user)
+        {
+          if(response.data.user.role != "Admin")
+          {
+            setError('Failed to fetch users because you are not Admin.');
+          }
+            
+        }
+      } catch(error) {
+        setError('User not logged In!');
+      }
+    }
+
   useEffect(() => {
     fetchUsers();
+    fetchIfAdmin();
 }, []);
 
   return (
@@ -42,13 +61,13 @@ const AllUsers = () => {
         <h1 className="text-2xl mb-4">All Users</h1>
 
         {loading && <p>Loading...</p>}
-        {error && <p className="text-red-500">{error}</p>}
+        {error && <p className="text-red-500 text-2xl text-center mt-10">{error}</p>}
         
         {!loading && !error && users.length === 0 && (
           <p>No users found.</p>
         )}
 
-        {!loading && !error && users.length > 0 && (
+        {!error && !loading && users.length > 0 && (
           <table className="border-collapse w-full">
             <thead>
               <tr className="bg-gray-200">
