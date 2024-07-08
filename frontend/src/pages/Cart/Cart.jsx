@@ -62,7 +62,7 @@ const Cart = () => {
             <p>{address}</p>
           </div>
           <div>
-            <button className='border p-2 rounded-md border-[#cfa25a] text-[#cfa25a] text-center'>
+            <button className='border p-2 rounded-md border-[#cfa25a] text-[#cfa25a] text-center hover:bg-[#cfa25a18]'>
               Change Address
             </button>
           </div>
