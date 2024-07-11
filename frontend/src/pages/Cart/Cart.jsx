@@ -1,53 +1,81 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import Banner from '../../components/Cards/Banner';
 import Footer from '../../components/Footer/Footer';
-import SideBannerRight from '../../components/Cards/SideBannerRight';
-import SideBannerLeft from '../../components/Cards/SideBannerLeft';
-
-const initialCart = [
-  {
-    id: 1,
-    image: "https://cdn.pixabay.com/photo/2023/02/12/11/41/biscuit-7784888_640.jpg",
-    product: "Baked Cookies (250 gms)",
-    price: 399.00,
-    qnty: 1,
-  },
-  {
-    id: 2,
-    image: "https://cdn.pixabay.com/photo/2023/02/12/11/41/biscuit-7784888_640.jpg",
-    product: "Baked Cookies (250 gms)",
-    price: 399.00,
-    qnty: 1,
-  },
-];
+import axiosInstance from '../../utils/axiosInstance';
 
 const Cart = () => {
-  const [cart, setCart] = useState(initialCart);
+  const [cart, setCart] = useState([]);
   const [fullname, setFullName] = useState("John Doe");
   const [pincode, setPincode] = useState("123456");
   const [address, setAddress] = useState("123 Main St, Anytown");
+  const [error, setError] = useState('');
 
-  const add = (id) => {
-    setCart(prevCart =>
-      prevCart.map(item =>
-        item.id === id ? { ...item, qnty: item.qnty + 1 } : item
-      )
-    );
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const response = await axiosInstance.get('/cart');
+        if (response.data && response.data.cartItems) {
+          setCart(response.data.cartItems);
+        } else {
+          setError('Failed to fetch cart items');
+        }
+      } catch (error) {
+        setError('Failed to fetch cart items');
+      }
+    };
+
+    fetchCart();
+  }, []);
+
+  const handleAddToCart = async (productId) => {
+    try {
+      const response = await axiosInstance.post('/cart-add', { productId });
+      if (response.data && response.data.error === false) {
+        setCart((prevCart) => {
+          const existingItem = prevCart.find((item) => item.productId === productId);
+          if (existingItem) {
+            return prevCart.map((item) =>
+              item.productId === productId ? { ...item, quantity: item.quantity + 1 } : item
+            );
+          } else {
+            return [...prevCart, response.data.cartItem];
+          }
+        });
+      } else {
+        setError(response.data.message || 'Failed to add to cart');
+      }
+    } catch (error) {
+      setError('Failed to add to cart');
+    }
   };
 
-  const sub = (id) => {
-    setCart(prevCart =>
-      prevCart.map(item =>
-        item.id === id && item.qnty > 1 ? { ...item, qnty: item.qnty - 1 } : item
-      )
-    );
+  const handleRemoveFromCart = async (productId) => {
+    try {
+      const response = await axiosInstance.post('/cart-remove', { productId });
+      if (response.data && response.data.error === false) {
+        setCart((prevCart) => {
+          const existingItem = prevCart.find((item) => item.productId === productId);
+          if (existingItem && existingItem.quantity > 1) {
+            return prevCart.map((item) =>
+              item.productId === productId ? { ...item, quantity: item.quantity - 1 } : item
+            );
+          } else {
+            return prevCart.filter((item) => item.productId !== productId);
+          }
+        });
+      } else {
+        setError(response.data.message || 'Failed to remove from cart');
+      }
+    } catch (error) {
+      setError('Failed to remove from cart');
+    }
   };
 
   return (
     <div className='flex flex-col min-h-screen'>
       <Banner />
-      <Navbar />
+      <Navbar totalCart={cart.length} />
 
       <div className='px-[350px]'>
         <h1 className='my-10 text-2xl'>
@@ -62,15 +90,15 @@ const Cart = () => {
             <p>{address}</p>
           </div>
           <div>
-            <button className='border p-2 rounded-md border-[#cfa25a] text-[#cfa25a] text-center hover:bg-[#cfa25a18]'>
+            <a href='/settings' className='border p-2 rounded-md border-[#cfa25a] text-[#cfa25a] text-center hover:bg-[#cfa25a18]'>
               Change Address
-            </button>
+            </a>
           </div>
         </div>
 
         <div className='mx-36 flex flex-col gap-5 my-20'>
           {cart.map((item) => (
-            <div key={item.id} className='border p-5 flex gap-10'>
+            <div key={item.productId} className='border p-5 flex gap-10'>
               <div className='w-1/4'>
                 <img src={item.image} alt={item.product} className='h-[200px] object-cover cursor-pointer' />
               </div>
@@ -81,9 +109,9 @@ const Cart = () => {
                   <p className='text-[#cfa25a] font-semibold'>₹{item.price.toFixed(2)}</p>
                 </div>
                 <div className='flex items-center gap-2 mt-2'>
-                  <button className='bg-gray-200 px-3 py-1 rounded' onClick={() => sub(item.id)}>-</button>
-                  <span>{item.qnty}</span>
-                  <button className='bg-gray-200 px-3 py-1 rounded' onClick={() => add(item.id)}>+</button>
+                  <button className='bg-gray-200 px-3 py-1 rounded' onClick={() => handleRemoveFromCart(item.productId)}>-</button>
+                  <span>{item.quantity}</span>
+                  <button className='bg-gray-200 px-3 py-1 rounded' onClick={() => handleAddToCart(item.productId)}>+</button>
                 </div>
               </div>
             </div>

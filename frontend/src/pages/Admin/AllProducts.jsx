@@ -129,7 +129,7 @@ const AllProducts = () => {
                             <tbody className="text-center ">
                                 {products.map((product, index) => (
                                     <tr key={index} className="bg-white hover:bg-gray-100">
-                                        <td className="border p-2">{product.product_code}</td>
+                                        <td className="border p-2 font-bold">{product.product_code}</td>
                                         <td className="border p-2">{product.product_name}</td>
                                         <td className="border p-2">{product.product_imageURL}</td>
                                         <td className="border p-2">{product.product_SP}</td>

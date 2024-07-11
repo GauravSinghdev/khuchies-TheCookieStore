@@ -1,6 +1,8 @@
 const express = require("express");
 const zod = require("zod");
 const { User } = require("../models/user");
+const { Cart } = require("../models/cart");
+const { Product } = require("../models/product")
 const jwt = require("jsonwebtoken")
 const JWT_SECRET = require("../config");
 const router = express.Router();
@@ -244,5 +246,119 @@ router.delete("/delete-user", authenticateToken, async (req, res) => {
     }
 });
 
+
+// Add to cart route
+router.post('/cart-add', authenticateToken, async (req, res) => {
+    const { productId } = req.body;
+    const userId = req.user.userId; // Extract userId from req.user
+  
+    try {
+      // Check if the product exists
+      const product = await Product.findById(productId);
+      if (!product) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+  
+      // Check if the product is already in the user's cart
+      let cartItem = await Cart.findOne({ userId, productId });
+  
+      if (cartItem) {
+        // If product exists in the cart, increment quantity
+        cartItem.quantity += 1;
+      } else {
+        // Create a new cart item
+        cartItem = new Cart({
+          userId: userId,
+          productId: productId,
+          quantity: 1, // Assuming quantity is 1 for now
+        });
+      }
+  
+      // Save or update cart item
+      await cartItem.save();
+  
+      // Example response for success
+      res.status(201).json({
+        error: false,
+        cartItem,
+        message: "Added to Cart Successfully."
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        error: true,
+        message: 'Internal Server Error'
+      });
+    }
+});
+
+// Remove from the cart route
+router.post('/cart-remove', authenticateToken, async (req, res) => {
+    const { productId } = req.body;
+    const userId = req.user.userId; // Assuming you have userId in your user object from authentication
+  
+    try {
+      // Find the cart item to decrement quantity or remove
+      let cartItem = await Cart.findOne({ userId, productId });
+  
+      if (!cartItem) {
+        return res.status(404).json({ error: 'Item not found in cart' });
+      }
+  
+      if (cartItem.quantity > 1) {
+        cartItem.quantity -= 1;
+        await cartItem.save();
+      } else {
+        // Remove the item from cart if quantity is 1
+        await Cart.deleteOne({ userId, productId });
+      }
+  
+      // Example response for success
+      res.status(200).json({
+        error: false,
+        message: 'Item removed from cart successfully'
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        error: true,
+        message: 'Internal Server Error'
+      });
+    }
+});
+
+// Get the cart details
+router.get('/cart', authenticateToken, async (req, res) => {
+    const user = req.user;
+  
+    try {
+      // Fetch cart items for the user
+      const cartItems = await Cart.find({ userId: user.userId }).populate('productId');
+  
+      // Format cart items to include necessary product details
+      const formattedCartItems = cartItems.map(item => ({
+        productId: item.productId._id,
+        product: item.productId.product_name,
+        price: item.productId.product_SP,
+        image: item.productId.product_imageURL,
+        quantity: item.quantity
+      }));
+  
+      res.status(200).json({
+        error: false,
+        cartItems: formattedCartItems
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        error: true,
+        message: 'Internal Server Error'
+      });
+    }
+});
+
 module.exports = router;
+
+
+
 
