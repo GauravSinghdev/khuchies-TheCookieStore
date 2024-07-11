@@ -111,7 +111,7 @@ router.delete("/delete-product/:productId", authenticateToken, async (req, res) 
 });
 
 //Edit the Product route
-router.put("/edit-product/:productId" , async (req, res) => {
+router.put("/edit-product/:productId" , authenticateToken, async (req, res) => {
     const productId = req.params.productId;
     const { Product_name, Product_code, Product_imgURL, Product_SP, Product_MRP, Product_discount } = req.body;
     try{
