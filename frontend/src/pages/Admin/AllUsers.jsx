@@ -27,7 +27,7 @@ const AllUsers = () => {
             setError('Failed to fetch users or User is not logged In.');
             setLoading(false);
           }
-        }
+    }
 
     const fetchIfAdmin = async () => {
 
@@ -58,38 +58,37 @@ const AllUsers = () => {
       <Navbar />
 
       <div className="px-[350px] mt-10">
+        <h1 className="text-3xl mb-8 text-center">All Users <span className='text-slate-600'>({users.length})</span></h1>
 
         {loading && <p>Loading...</p>}
         {error && <p className="text-red-500 text-2xl text-center mt-10">{error}</p>}
-
-        <h1 className="text-2xl mb-4">All Users</h1>
         
         {!loading && !error && users.length === 0 && (
           <p>No users found!</p>
         )}
 
         {!error && !loading && users.length > 0 && (
-          <table className="border-collapse w-full">
+          <table className="border-collapse w-full border-4">
             <thead>
-              <tr className="bg-gray-200">
+              <tr className="bg-gray-200 ">
+                <th className="border px-4 py-2">Role</th>
                 <th className="border px-4 py-2">Name</th>
                 <th className="border px-4 py-2">PhoneNo</th>
-                <th className="border px-4 py-2">Role</th>
-                <th className="border px-4 py-2">Address</th>
                 <th className="border px-4 py-2">City</th>
                 <th className="border px-4 py-2">Pincode</th>
+                <th className="border px-4 py-2">Address</th>
                 <th className="border px-4 py-2">CreatedOn</th>
               </tr>
             </thead>
             <tbody className="text-center">
               {users.map((user, index) => (
                 <tr key={index}>
+                  <td className="border px-4 py-2">{user.role}</td>
                   <td className="border px-4 py-2">{user.username}</td>
                   <td className="border px-4 py-2">{user.phoneNo}</td>
-                  <td className="border px-4 py-2">{user.role}</td>
-                  <td className="border px-4 py-2">{`${user.addLine1} ${user.addLine2}`}</td>
                   <td className="border px-4 py-2">{user.city}</td>
                   <td className="border px-4 py-2">{user.pincode}</td>
+                  <td className="border px-4 py-2">{`${user.addLine1} ${user.addLine2}`}</td>
                   <td className="border px-4 py-2">{new Date(user.createdOn).toLocaleDateString()}</td>
                 </tr>
               ))}
