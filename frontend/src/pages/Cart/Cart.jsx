@@ -82,7 +82,7 @@ const Cart = () => {
           My Cart<span className='text-slate-600'> ({cart.length} items)</span>
         </h1>
 
-        <div className='border mx-10 p-6 flex justify-between rounded-md items-center mb-16'>
+        <div className='border mx-10 p-6 flex justify-between rounded-md items-center'>
           <div>
             <p>
               Deliver to: <span className='font-bold'>{fullname}, {pincode}</span>
@@ -90,13 +90,17 @@ const Cart = () => {
             <p>{address}</p>
           </div>
           <div>
-            <a href='/settings' className='border p-2 rounded-md border-[#cfa25a] text-[#cfa25a] text-center hover:bg-[#cfa25a18]'>
+            <a href='/settings' className='border p-2 rounded-md border-[#cfa25a] text-[#cfa25a] text-center hover:bg-[#cfa25a18] shadow-xl'>
               Change Address
             </a>
           </div>
         </div>
 
-        <div className='mx-36 flex flex-col gap-5 my-20'>
+        <div className='flex justify-end my-10'>
+          <a href='/thankyou-page' className='items-center bg-blue-400 p-2 border shadow-xl me-36 active:bg-blue-300'>Continue with Payment</a>
+        </div>
+
+        <div className='mx-36 flex flex-col gap-5 mb-10'>
           {cart.map((item) => (
             <div key={item.productId} className='border p-5 flex gap-10'>
               <div className='w-1/4'>
@@ -117,6 +121,8 @@ const Cart = () => {
             </div>
           ))}
         </div>
+
+        
       </div>
 
       <Footer />

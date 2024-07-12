@@ -18,6 +18,7 @@ const Orders = lazy(() => import('./pages/Orders/Orders'));
 const AllUsers = lazy(() => import('./pages/Admin/AllUsers'));
 const AllProducts = lazy(() => import('./pages/Admin/AllProducts'));
 const Admin = lazy(() => import('./pages/Admin/'));
+const ThankYou = lazy(() => import('./pages/ThankYou/ThankYou'))
 
 const Loader = () => {
   <div aria-label="Loading..." role="status" className="flex items-center gap-2 justify-center mt-40">
@@ -63,6 +64,7 @@ const routes = (
         <Route path='/admin/' exact element={<Admin />} />
         <Route path='/admin/all-users' exact element={<AllUsers />} />
         <Route path='/admin/all-products' exact element={<AllProducts />} />
+        <Route path='/thankyou-page' exact element={<ThankYou />} />
       </Routes>
     </Suspense>
   </Router>

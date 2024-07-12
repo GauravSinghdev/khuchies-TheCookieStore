@@ -3,12 +3,14 @@ import Banner from '../../components/Cards/Banner';
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
 import axiosInstance from '../../utils/axiosInstance';
+import { CiHeart } from 'react-icons/ci';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -30,6 +32,22 @@ const Shop = () => {
 
     fetchProducts();
   }, []);
+
+  const toggleWishlist = async (productId) => {
+    try {
+      const response = await axiosInstance.post('/add-wishlist', { productId });
+      if (response.data && response.data.message === 'Product added to wishlist') {
+        setWishlist(prevWishlist => [...prevWishlist, productId]);
+      } else {
+        const response = await axiosInstance.post('/remove-wishlist', { productId });
+        if (response.data && response.data.message === 'Product removed from wishlist') {
+          setWishlist(prevWishlist => prevWishlist.filter(id => id !== productId));
+        }
+      }
+    } catch (error) {
+      console.error('Failed to update wishlist:', error);
+    }
+  };
 
   const addToCart = async (productId) => {
     try {
@@ -86,21 +104,31 @@ const Shop = () => {
   };
 
   return (
-    <div>
+    <div className='flex flex-col min-h-screen'>
       <Banner />
       <Navbar totalCart={totalCartItems} />
       <div className="px-[350px]">
         <h1 className="my-10 text-2xl">
           Cookies <span className="text-slate-600">({products.length})</span>
         </h1>
-        <div className="grid grid-cols-12 gap-3 my-10">
+        <div className="grid grid-cols-12 gap-5 my-10 mb-20">
           {loading ? (
             <p>Loading...</p>
           ) : error ? (
             <p>{error}</p>
           ) : (
             products.map((item, index) => (
-              <div key={index} className="shadow-lg bg-white col-span-3">
+              <div key={index} className="shadow-lg bg-white col-span-3 relative">
+                                
+                <button
+                    onClick={() => toggleWishlist(item._id)}
+                    className={`absolute top-2 right-2 p-2 rounded-full bg-gray-100 hover:bg-gray-200 ${
+                      wishlist.includes(item._id) ? 'text-red-500' : 'text-gray-500'
+                    }`}
+                  >
+                    <CiHeart className="h-6 w-6" />
+                  </button>
+
                 <img
                   src={item.product_imageURL}
                   alt="item-pic"
@@ -116,7 +144,7 @@ const Shop = () => {
                     </div>
                   </div>
                   {isInCart(item._id) ? (
-                    <div className="flex justify-center gap-2 items-center">
+                    <div className="flex justify-center gap-2 items-center my-2">
                       <button
                         className="border text-center h-10 w-10 rounded-full text-[20px] hover:border-gray-400 shadow text-[#cfa25a]"
                         onClick={() => removeFromCart(item._id)}
@@ -133,11 +161,13 @@ const Shop = () => {
                     </div>
                   ) : (
                     <button
-                      className="border-2 w-full rounded-[20px] p-1 mb-3 text-[15px] hover:border-gray-400 shadow text-[#cfa25a]"
-                      onClick={() => addToCart(item._id)}
-                    >
-                      Add to Cart
-                    </button>
+                    className={`w-full py-2 px-4 my-2 rounded-lg border-2 border-gray-300 text-gray-800 hover:bg-gray-100 ${
+                      isInCart(item._id) ? 'bg-gray-100' : 'bg-gray-200'
+                    }`}
+                    onClick={() => isInCart(item._id) ? removeFromCart(item._id) : addToCart(item._id)}
+                  >
+                    {isInCart(item._id) ? 'Remove from Cart' : 'Add to Cart'}
+                  </button>
                   )}
                 </div>
               </div>

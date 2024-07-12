@@ -3,6 +3,7 @@ const zod = require("zod");
 const { User } = require("../models/user");
 const { Cart } = require("../models/cart");
 const { Product } = require("../models/product")
+const { Wishlist } = require("../models/wishlist")
 const jwt = require("jsonwebtoken")
 const JWT_SECRET = require("../config");
 const router = express.Router();
@@ -356,6 +357,70 @@ router.get('/cart', authenticateToken, async (req, res) => {
       });
     }
 });
+
+// Add a product to the wishlist
+router.post('/add-wishlist', authenticateToken, async (req, res) => {
+    const userId = req.user.userId;  // Assuming req.user contains the authenticated user's details
+    const { productId } = req.body;
+  
+    try {
+      let wishlist = await Wishlist.findOne({ userId });
+  
+      if (!wishlist) {
+        wishlist = new Wishlist({ userId, products: [productId] });
+      } else {
+        if (!wishlist.products.includes(productId)) {
+          wishlist.products.push(productId);
+        } else {
+          return res.status(400).json({ message: 'Product is already in the wishlist' });
+        }
+      }
+  
+      await wishlist.save();
+      res.status(200).json({ message: 'Product added to wishlist' });
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to add product to wishlist', error: error.message });
+    }
+});
+
+// Remove a product from the wishlist
+router.post('/remove-wishlist', authenticateToken, async (req, res) => {
+    const userId = req.user._id; // Assuming req.user contains the authenticated user's details and _id is the correct field
+    const { productId } = req.body;
+  
+    try {
+      let wishlist = await Wishlist.findOne({ user: userId });
+  
+      if (wishlist) {
+        wishlist.products = wishlist.products.filter(id => id.toString() !== productId);
+        await wishlist.save();
+        res.status(200).json({ message: 'Product removed from wishlist' });
+      } else {
+        res.status(404).json({ message: 'Wishlist not found for this user' });
+      }
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to remove product from wishlist', error: error.message });
+    }
+});
+
+// Fetch user's wishlist
+router.get('/wishlist', authenticateToken, async (req, res) => {
+    const userId = req.user._id; // Assuming req.user contains the authenticated user's details and _id is the correct field
+  
+    try {
+        // Assuming Wishlist schema has 'user' field to store user's ObjectId and 'products' field to store array of product ObjectIds
+        const wishlist = await Wishlist.findOne({ user: userId }).populate('products');
+        
+        if (wishlist) {
+            res.status(200).json(wishlist); // Send wishlist data if found
+        } else {
+            res.status(404).json({ message: 'Wishlist not found for this user' }); // Send 404 if no wishlist found
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch wishlist', error: error.message }); // Send 500 in case of error
+    }
+});
+
 
 module.exports = router;
 
