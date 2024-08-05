@@ -4,13 +4,18 @@ import Banner from '../../components/Cards/Banner'
 import Footer from '../../components/Footer/Footer'
 import Cookies from '../../components/Cards/HCookies'
 import axiosInstance from '../../utils/axiosInstance'
+import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
-
+  const navigate = useNavigate();
   const [username, setFullName] = useState("there");
 
   const getUserInfo = async () => {
-
+    if(!localStorage.getItem('userToken'))
+    {
+      
+      navigate('/login');
+    }
     try {
         const response = await axiosInstance.get("/user-details");
         if (response.data && response.data.user) {

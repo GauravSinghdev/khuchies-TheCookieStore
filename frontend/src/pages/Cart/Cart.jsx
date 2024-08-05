@@ -96,10 +96,14 @@ const Cart = () => {
           </div>
         </div>
 
-        <div className='flex justify-end my-10'>
+        {
+          cart.length > 0 && 
+          <div className='flex justify-end my-10'>
           <a href='/thankyou-page' className='items-center bg-blue-400 p-2 border shadow-xl me-36 active:bg-blue-300'>Continue with Payment</a>
         </div>
 
+        }
+        
         <div className='mx-36 flex flex-col gap-5 mb-10'>
           {cart.map((item) => (
             <div key={item.productId} className='border p-5 flex gap-10'>
